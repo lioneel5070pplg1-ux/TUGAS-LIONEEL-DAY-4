@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dapur Lioneel - Menu Spesial & Cerita Rasa</title>
+    <meta name="description" content="Katalog dan manajemen menu restoran nusantara & bistro modern dengan 100+ hidangan kuliner pilihan.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍲</text></svg>">
+</head>
+<body>
+    <!-- Background Glow Elements -->
+    <div class="glow-bg glow-1"></div>
+    <div class="glow-bg glow-2"></div>
+
+    <!-- Navigation Header -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo">
+                    <span>🍲</span>
+                </div>
+                <div>
+                    <h1 class="brand-title">RASA <span>NUSANTARA</span></h1>
+                    <p class="brand-subtitle">Rasa Lokal • Cerita Lioneel</p>
+                </div>
+            </div>
+
+            <div class="nav-actions">
+                <div class="server-status" id="serverStatus" title="Status Koneksi API">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Memeriksa API...</span>
+                </div>
+                <button class="btn btn-primary" id="btnOpenAddModal">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    <span>Tambah Menu</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="main-container">
+        <!-- Hero & Statistics Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <span class="hero-badge">✨ DIBUAT DENGAN RASA, OLEH LIONEEL</span>
+                <h2 class="hero-title">Jelajahi Lebih Dari <span class="text-gradient">100+ Menu Pilihan</span></h2>
+                <p class="hero-description">Nikmati kelezatan masakan khas nusantara dan barat yang dibuat dengan resep otentik, bumbu rempah pilihan, dan bahan segar berkualitas tinggi.</p>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📋</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="statTotalMenu">-</span>
+                        <span class="stat-label">Total Hidangan</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏷️</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="statTotalKategori">-</span>
+                        <span class="stat-label">Kategori Kuliner</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">💰</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="statHargaMin">-</span>
+                        <span class="stat-label">Harga Mulai Dari</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🟢</div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="statTersedia">-</span>
+                        <span class="stat-label">Siap Dipesan</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Fitur khas Lioneel: Mood Menu -->
+        <section class="mood-section" aria-labelledby="moodTitle">
+            <div class="mood-copy">
+                <span class="mood-kicker">✦ FITUR KHAS DAPUR LIONEEL</span>
+                <h2 id="moodTitle">Lagi pengin makan apa?</h2>
+                <p>Pilih suasana hatimu. Biar Dapur Lioneel bantu menemukan ide santapan hari ini.</p>
+            </div>
+            <div class="mood-actions">
+                <label for="moodSelect">Mood kamu sekarang</label>
+                <select id="moodSelect">
+                    <option value="comfort">Butuh comfort food 🍜</option>
+                    <option value="fresh">Pengen yang segar 🥗</option>
+                    <option value="bold">Lagi berani coba rasa 🌶️</option>
+                    <option value="sweet">Mau yang manis 🍰</option>
+                    <option value="thrifty">Lagi hemat 💛</option>
+                </select>
+                <button class="btn btn-primary" id="btnMoodPick" type="button">✨ Temukan Menu</button>
+            </div>
+            <div class="mood-result" id="moodResult" aria-live="polite">
+                <span class="mood-result-icon">🍽️</span><div><strong>Rekomendasi personal menunggumu</strong><p>Jawab mood-mu, lalu temukan inspirasi menu.</p></div>
+            </div>
+        </section>
+
+        <!-- Filter & Search Controls -->
+        <section class="controls-section">
+            <!-- Search & Secondary Filter Bar -->
+            <div class="search-filter-bar">
+                <div class="search-box">
+                    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Cari nama menu, bahan, atau deskripsi rasa..." autocomplete="off">
+                    <button class="clear-btn" id="btnClearSearch" title="Hapus pencarian">&times;</button>
+                </div>
+
+                <div class="filter-actions">
+                    <div class="select-wrapper">
+                        <select id="sortSelect" aria-label="Urutkan menu">
+                            <option value="id-desc">Terbaru Ditambahkan</option>
+                            <option value="harga-asc">Harga: Termurah</option>
+                            <option value="harga-desc">Harga: Termahal</option>
+                            <option value="nama-asc">Nama Menu (A - Z)</option>
+                            <option value="nama-desc">Nama Menu (Z - A)</option>
+                        </select>
+                    </div>
+
+                    <div class="select-wrapper">
+                        <select id="statusFilter" aria-label="Filter status ketersediaan">
+                            <option value="semua">Semua Status</option>
+                            <option value="tersedia">Tersedia</option>
+                            <option value="habis">Stok Habis</option>
+                        </select>
+                    </div>
+
+                    <button class="btn btn-secondary" id="btnResetFilters" title="Reset Semua Filter">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                        </svg>
+                        <span>Reset</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Pills / Tabs -->
+            <div class="categories-scroll" id="categoriesContainer">
+                <button class="cat-pill active" data-category="Semua">
+                    Semua Menu <span class="badge" id="badgeAll">...</span>
+                </button>
+                <!-- Kategori lain dimuat secara dinamis via API -->
+            </div>
+        </section>
+
+        <!-- Menu Section Header -->
+        <div class="section-meta">
+            <div class="result-info" id="resultInfoText">
+                Memuat hidangan lezat...
+            </div>
+            <div class="view-options">
+                <span class="items-per-page">
+                    Tampilkan:
+                    <select id="limitSelect">
+                        <option value="12">12 menu</option>
+                        <option value="24">24 menu</option>
+                        <option value="48">48 menu</option>
+                        <option value="0">Semua</option>
+                    </select>
+                </span>
+            </div>
+        </div>
+
+        <!-- Menu Cards Grid -->
+        <div class="menu-grid" id="menuGrid">
+            <!-- Loading Skeletons -->
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+            <div class="skeleton-card"></div>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state hidden" id="emptyState">
+            <div class="empty-icon">🍽️</div>
+            <h3>Menu Tidak Ditemukan</h3>
+            <p>Tidak ada hidangan yang cocok dengan kata kunci atau filter yang Anda pilih.</p>
+            <button class="btn btn-primary" id="btnEmptyReset">Reset Filter</button>
+        </div>
+
+        <!-- Pagination -->
+        <nav class="pagination-container" id="paginationContainer" aria-label="Navigasi Halaman Menu">
+            <button class="page-btn" id="btnPrevPage" disabled>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span>Sebelumnya</span>
+            </button>
+            
+            <div class="page-numbers" id="pageNumbers"></div>
+
+            <button class="page-btn" id="btnNextPage" disabled>
+                <span>Selanjutnya</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </nav>
+    </main>
+
+    <!-- Modal Form (Tambah / Edit Menu) -->
+    <div class="modal-backdrop hidden" id="menuModal">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Tambah Menu Baru</h3>
+                <button class="modal-close" id="btnCloseModal">&times;</button>
+            </div>
+            <form id="menuForm" class="modal-body">
+                <input type="hidden" id="menuId">
+
+                <div class="form-row">
+                    <div class="form-group flex-2">
+                        <label for="inputNama">Nama Menu <span class="required">*</span></label>
+                        <input type="text" id="inputNama" required placeholder="Contoh: Rendang Sapi Minang" maxlength="100">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="inputKategori">Kategori <span class="required">*</span></label>
+                        <select id="inputKategori" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="Makanan Utama">Makanan Utama</option>
+                            <option value="Seafood">Seafood</option>
+                            <option value="Mie & Pasta">Mie & Pasta</option>
+                            <option value="Steak & Western">Steak & Western</option>
+                            <option value="Cemilan">Cemilan</option>
+                            <option value="Dessert">Dessert</option>
+                            <option value="Minuman">Minuman</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="inputHarga">Harga (Rp) <span class="required">*</span></label>
+                        <input type="number" id="inputHarga" required placeholder="Contoh: 45000" min="500" step="500">
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="inputStatus">Status Ketersediaan</label>
+                        <select id="inputStatus">
+                            <option value="tersedia">Tersedia (Ready)</option>
+                            <option value="habis">Habis (Out of Stock)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputDeskripsi">Deskripsi Rasa & Bahan</label>
+                    <textarea id="inputDeskripsi" rows="3" placeholder="Jelaskan cita rasa, bumbu rahasia, atau lauk pendamping..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="inputGambar">URL Foto Hidangan</label>
+                    <input type="url" id="inputGambar" placeholder="https://images.unsplash.com/...">
+                    <div class="image-preview-container" id="imagePreviewBox">
+                        <span class="preview-hint">Pratinjau Foto:</span>
+                        <img id="imagePreview" src="" alt="Pratinjau" class="preview-img hidden">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btnCancelModal">Batal</button>
+                    <button type="submit" class="btn btn-primary" id="btnSubmitMenu">
+                        <span class="btn-text">Simpan Menu</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Detail View Modal -->
+    <div class="modal-backdrop hidden" id="detailModal">
+        <div class="modal-dialog detail-dialog">
+            <div class="detail-hero" id="detailHeroImage">
+                <button class="modal-close detail-close" id="btnCloseDetail">&times;</button>
+                <span class="detail-category-badge" id="detailCategory">Kategori</span>
+            </div>
+            <div class="detail-body">
+                <div class="detail-header-info">
+                    <h3 class="detail-title" id="detailNama">Nama Menu</h3>
+                    <div class="detail-price-box">
+                        <span class="detail-price" id="detailHarga">Rp 0</span>
+                        <span class="status-badge" id="detailStatus">Tersedia</span>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <h4>Deskripsi & Keistimewaan</h4>
+                    <p id="detailDeskripsi">-</p>
+                </div>
+                <div class="detail-meta-tags">
+                    <div class="meta-tag">
+                        <span class="meta-icon">🆔</span>
+                        <span>ID Menu: <b id="detailId">1</b></span>
+                    </div>
+                    <div class="meta-tag">
+                        <span class="meta-icon">🕒</span>
+                        <span>Dibuat: <span id="detailCreatedAt">-</span></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="btnEditFromDetail">Edit Hidangan</button>
+                    <button class="btn btn-danger" id="btnDeleteFromDetail">Hapus Menu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-backdrop hidden" id="deleteModal">
+        <div class="modal-dialog confirm-dialog">
+            <div class="confirm-icon">⚠️</div>
+            <h3 class="confirm-title">Hapus Menu Ini?</h3>
+            <p class="confirm-desc">Apakah Anda yakin ingin menghapus menu <strong id="deleteTargetName">...</strong> dari katalog? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="btnCancelDelete">Batal</button>
+                <button class="btn btn-danger" id="btnConfirmDelete">Ya, Hapus Sekarang</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>© 2026 Dapur Lioneel — Dibuat dengan sepenuh rasa oleh Lioneel.</p>
+            <div class="footer-links">
+                <a href="/api/menu" target="_blank">Endpoint API</a>
+                <a href="/api/menu/categories" target="_blank">Kategori</a>
+                <a href="/api/menu/stats" target="_blank">Statistik</a>
+                <a href="/api/health" target="_blank">Kesehatan Server</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
